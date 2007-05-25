@@ -16,8 +16,6 @@ Buildrequires:  fuse-devel >= 2.5.0
 Requires:	fuse >= 2.5.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
-ExclusiveArch:	%{ix86} x86_64
-
 %description
 The ntfs-3g package contains NTFS filesystem driver with read and 
 write support. It provides safe and fast handling of MS Windows Vista, 
