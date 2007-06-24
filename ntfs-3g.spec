@@ -1,7 +1,7 @@
 %define	name	ntfs-3g
-%define	version	1.516
+%define	version	1.616
 %define	release	%mkrel 1
-%define	major	2
+%define	major	4
 %define	libname	%mklibname %{name} %major
 
 Summary:	Read-write ntfs driver
@@ -53,7 +53,7 @@ use ntfs-3g.
 %install
 rm -rf %{buildroot}
 
-perl -pi -e 's|/sbin/ldconfig|true|' src/Makefile
+sed -i -e 's|/sbin/ldconfig|true|' src/Makefile
 %makeinstall_std
 cat > README.install.urpmi << EOF	 
 WARNING :
