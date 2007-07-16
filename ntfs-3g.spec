@@ -71,7 +71,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr (-,root,root)
-%doc README ChangeLog AUTHORS CREDITS INSTALL NEWS README.install.urpmi
+%doc README AUTHORS CREDITS NEWS README.install.urpmi
 %{_bindir}/ntfs-3g
 %{_mandir}/man8/*
 /sbin/mount.ntfs-3g
@@ -82,6 +82,7 @@ rm -rf %{buildroot}
 
 %files -n %{libnamedev}
 %defattr(-,root,root)
+%doc ChangeLog
 %{_libdir}/libntfs-3g.so
 %{_includedir}/ntfs-3g
 %{_libdir}/libntfs-3g*a
