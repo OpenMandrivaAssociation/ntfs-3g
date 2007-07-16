@@ -1,8 +1,9 @@
 %define	name	ntfs-3g
-%define	version	1.616
+%define	version	1.710
 %define	release	%mkrel 1
-%define	major	4
+%define	major	5
 %define	libname	%mklibname %{name} %major
+%define	libnamedev %mklibname -d %{name}
 
 Summary:	Read-write ntfs driver
 Name:		%{name}
@@ -10,7 +11,7 @@ Version:	%{version}
 Release:	%{release}
 License:	GPL
 Group:		System/Base
-Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
+Source: 	http://ntfs-3g.org/%{name}-%{version}.tar.bz2
 URL:		http://ntfs-3g.org/
 Buildrequires:  fuse-devel >= 2.5.0
 Requires:	fuse >= 2.5.0
@@ -31,14 +32,15 @@ Group:		System/Libraries
 %description -n	%{libname}
 Library for ntfs-3g driver.
 
-%package -n	%{libname}-devel
+%package -n	%{libnamedev}
 Summary:	Header files and static libraries for ntfs-3g
 Group:		Development/C
+Conflicts: %mklibname -d %name 4
 Requires:	%{libname} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 
-%description -n %{libname}-devel
+%description -n %{libnamedev}
 You should install this package if you wish to develop applications that
 use ntfs-3g.
 
@@ -78,7 +80,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/libntfs-3g.so.%{major}*
 
-%files -n %{libname}-devel
+%files -n %{libnamedev}
 %defattr(-,root,root)
 %{_libdir}/libntfs-3g.so
 %{_includedir}/ntfs-3g
