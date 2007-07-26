@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
 %define	version	1.710
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 %define	major	5
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
@@ -12,6 +12,7 @@ Release:	%{release}
 License:	GPL
 Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tar.bz2
+Source1:    10-ntfs-3g-policy.fdi
 URL:		http://ntfs-3g.org/
 Buildrequires:  fuse-devel >= 2.5.0
 Requires:	fuse >= 2.5.0
@@ -63,6 +64,9 @@ Install dkms-fuse with kernels older than 2.6.20.2 or not all features will
 work properly. 
 EOF
 
+mkdir -p %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
+install -m 644 %SOURCE1 %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
+
 %clean
 rm -rf %{buildroot}
 
@@ -75,6 +79,7 @@ rm -rf %{buildroot}
 %{_bindir}/ntfs-3g
 %{_mandir}/man8/*
 /sbin/mount.ntfs-3g
+%{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 
 %files -n %{libname}
 %defattr(-,root,root)
