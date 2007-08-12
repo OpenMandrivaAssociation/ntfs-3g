@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
-%define	version	1.710
-%define	release	%mkrel 2
+%define	version	1.810
+%define	release	%mkrel 1
 %define	major	5
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
@@ -14,8 +14,8 @@ Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tar.bz2
 Source1:    10-ntfs-3g-policy.fdi
 URL:		http://ntfs-3g.org/
-Buildrequires:  fuse-devel >= 2.5.0
-Requires:	fuse >= 2.5.0
+Buildrequires:  fuse-devel >= 2.6.0
+Requires:	fuse >= 2.6.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -91,5 +91,3 @@ rm -rf %{buildroot}
 %{_libdir}/libntfs-3g.so
 %{_includedir}/ntfs-3g
 %{_libdir}/libntfs-3g*a
-
-
