@@ -1,7 +1,7 @@
 %define	name	ntfs-3g
 %define	version	1.1004
 %define	release	%mkrel 1
-%define	major	10
+%define	major	13
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
 
@@ -36,7 +36,7 @@ Library for ntfs-3g driver.
 %package -n	%{libnamedev}
 Summary:	Header files and static libraries for ntfs-3g
 Group:		Development/C
-Conflicts: %mklibname -d %name 4
+Obsoletes: %mklibname -d %name 4
 Requires:	%{libname} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
