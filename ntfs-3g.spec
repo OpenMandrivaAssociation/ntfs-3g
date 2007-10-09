@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	1.826
+%define	version	1.1004
 %define	release	%mkrel 1
 %define	major	10
 %define	libname	%mklibname %{name} %major
@@ -11,7 +11,7 @@ Version:	%{version}
 Release:	%{release}
 License:	GPL
 Group:		System/Base
-Source: 	http://ntfs-3g.org/%{name}-%{version}.tar.bz2
+Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:    10-ntfs-3g-policy.fdi
 URL:		http://ntfs-3g.org/
 Buildrequires:  fuse-devel >= 2.6.0
