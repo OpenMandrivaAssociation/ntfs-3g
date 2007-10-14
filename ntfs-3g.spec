@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
 %define	version	1.1004
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 %define	major	13
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
@@ -58,11 +58,6 @@ rm -rf %{buildroot}
 
 sed -i -e 's|/sbin/ldconfig|true|' src/Makefile
 %makeinstall_std
-cat > README.install.urpmi << EOF	 
-WARNING :
-Install dkms-fuse with kernels older than 2.6.20.2 or not all features will
-work properly. 
-EOF
 
 mkdir -p %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
 install -m 644 %SOURCE1 %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
@@ -75,7 +70,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr (-,root,root)
-%doc README AUTHORS CREDITS NEWS README.install.urpmi
+%doc README AUTHORS CREDITS NEWS
 %{_bindir}/ntfs-3g
 %{_mandir}/man8/*
 /sbin/mount.ntfs-3g
