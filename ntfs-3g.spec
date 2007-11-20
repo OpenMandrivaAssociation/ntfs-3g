@@ -1,7 +1,7 @@
 %define	name	ntfs-3g
-%define	version	1.1104
-%define	release	%mkrel 2
-%define	major	14
+%define	version	1.1120
+%define	release	%mkrel 1
+%define	major	16
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
 
@@ -9,7 +9,7 @@ Summary:	Read-write ntfs driver
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-License:	GPL
+License:	GPLv2+
 Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:    10-ntfs-3g-policy.fdi
