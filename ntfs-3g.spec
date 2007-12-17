@@ -16,7 +16,6 @@ Source1:    10-ntfs-3g-policy.fdi
 URL:		http://ntfs-3g.org/
 Buildrequires:  fuse-devel >= 2.6.0
 Requires:	fuse >= 2.6.0
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The ntfs-3g package contains NTFS filesystem driver with read and 
