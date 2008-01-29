@@ -18,7 +18,7 @@ URL:		http://ntfs-3g.org/
 Buildrequires:  fuse-devel >= 2.7.2
 Requires:	fuse >= 2.7.2
 %else
-Requires:	fuse >= 2.6.0
+Requires:	kmod(fuse)
 %endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
