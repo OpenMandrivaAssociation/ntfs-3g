@@ -1,7 +1,7 @@
 %define	name	ntfs-3g
-%define	version	1.1120
+%define	version	1.2129
 %define	release	%mkrel 1
-%define	major	16
+%define	major	21
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
 
@@ -72,8 +72,9 @@ rm -rf %{buildroot}
 %defattr (-,root,root)
 %doc README AUTHORS CREDITS NEWS
 %{_bindir}/ntfs-3g
+%{_bindir}/ntfs-3g.probe
 %{_mandir}/man8/*
-/sbin/mount.ntfs-3g
+%{_sbindir}/mount.ntfs-3g
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 
 %files -n %{libname}
@@ -86,3 +87,4 @@ rm -rf %{buildroot}
 %{_libdir}/libntfs-3g.so
 %{_includedir}/ntfs-3g
 %{_libdir}/libntfs-3g*a
+%{_libdir}/pkgconfig/*.pc
