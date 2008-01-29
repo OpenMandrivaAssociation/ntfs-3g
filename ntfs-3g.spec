@@ -14,8 +14,12 @@ Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:    10-ntfs-3g-policy.fdi
 URL:		http://ntfs-3g.org/
-Buildrequires:  fuse-devel >= 2.6.0
+%if %mdkversion > 200800
+Buildrequires:  fuse-devel >= 2.7.2
+Requires:	fuse >= 2.7.2
+%else
 Requires:	fuse >= 2.6.0
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -50,7 +54,12 @@ use ntfs-3g.
 %setup -q
 
 %build
-%configure2_5x
+%configure2_5x \
+%if %mdkversion > 200800
+	--with-fuse=external
+%else
+	--with-fuse=internal
+%endif
 %make
 
 %install
