@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
 %define	version	1.2129
-%define	release	%mkrel 2
+%define	release	%mkrel 3
 %define	major	21
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
@@ -55,6 +55,7 @@ use ntfs-3g.
 
 %build
 %configure2_5x \
+	--sbindir=/sbin \
 %if %mdkversion > 200800
 	--with-fuse=external
 %else
@@ -83,7 +84,7 @@ rm -rf %{buildroot}
 %{_bindir}/ntfs-3g
 %{_bindir}/ntfs-3g.probe
 %{_mandir}/man8/*
-%{_sbindir}/mount.ntfs-3g
+/sbin/mount.ntfs-3g
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 
 %files -n %{libname}
