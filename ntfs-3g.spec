@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
 %define	version	1.2129
-%define	release	%mkrel 3
+%define	release	%mkrel 4
 %define	major	21
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
@@ -12,7 +12,7 @@ Release:	%{release}
 License:	GPLv2+
 Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
-Source1:    10-ntfs-3g-policy.fdi
+Source1:	10-ntfs-3g-policy.fdi
 URL:		http://ntfs-3g.org/
 %if %mdkversion > 200800
 Buildrequires:  fuse-devel >= 2.7.2
@@ -55,6 +55,9 @@ use ntfs-3g.
 
 %build
 %configure2_5x \
+	--exec-prefix=/ \
+	--bindir=/bin \
+	--libdir=/%_lib \
 	--sbindir=/sbin \
 %if %mdkversion > 200800
 	--with-fuse=external
@@ -65,9 +68,19 @@ use ntfs-3g.
 
 %install
 rm -rf %{buildroot}
-
 sed -i -e 's|/sbin/ldconfig|true|' src/Makefile
 %makeinstall_std
+
+# make the symlink an actual copy to avoid confusion
+rm -rf %buildroot/sbin/mount.ntfs-3g
+cp -a %buildroot/bin/ntfs-3g %buildroot/sbin/mount.ntfs-3g
+
+# .pc file should always be there
+mkdir -p %buildroot%_libdir
+mv -f %buildroot/%_lib/pkgconfig %buildroot%_libdir/pkgconfig
+
+# remove doc files, as we'll cp them later
+rm -fr %buildroot/share/doc/%name
 
 mkdir -p %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
 install -m 644 %SOURCE1 %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
@@ -81,20 +94,20 @@ rm -rf %{buildroot}
 %files
 %defattr (-,root,root)
 %doc README AUTHORS CREDITS NEWS
-%{_bindir}/ntfs-3g
-%{_bindir}/ntfs-3g.probe
+/bin/ntfs-3g
+/bin/ntfs-3g.probe
 %{_mandir}/man8/*
-/sbin/mount.ntfs-3g
+%attr(754,root,fuse) /sbin/mount.ntfs-3g
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/libntfs-3g.so.%{major}*
+/%{_lib}/libntfs-3g.so.%{major}*
 
 %files -n %{libnamedev}
 %defattr(-,root,root)
 %doc ChangeLog
-%{_libdir}/libntfs-3g.so
+/%{_lib}/libntfs-3g.so
 %{_includedir}/ntfs-3g
-%{_libdir}/libntfs-3g*a
+/%{_lib}/libntfs-3g*a
 %{_libdir}/pkgconfig/*.pc
