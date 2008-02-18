@@ -1,7 +1,7 @@
 %define	name	ntfs-3g
-%define	version	1.2129
-%define	release	%mkrel 4
-%define	major	21
+%define	version	1.2216
+%define	release	%mkrel 1
+%define	major	23
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
 
