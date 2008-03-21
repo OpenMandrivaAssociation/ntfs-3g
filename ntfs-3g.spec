@@ -1,7 +1,7 @@
 %define	name	ntfs-3g
-%define	version	1.2216
+%define	version	1.2310
 %define	release	%mkrel 1
-%define	major	23
+%define	major	24
 %define	libname	%mklibname %{name} %major
 %define	libnamedev %mklibname -d %{name}
 
@@ -13,6 +13,7 @@ License:	GPLv2+
 Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
+Patch0:		ntfs-3g-1.2216-nomtab.patch
 URL:		http://ntfs-3g.org/
 %if %mdkversion > 200800
 Buildrequires:  fuse-devel >= 2.7.2
@@ -52,6 +53,7 @@ use ntfs-3g.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %configure2_5x \
@@ -59,6 +61,7 @@ use ntfs-3g.
 	--bindir=/bin \
 	--libdir=/%_lib \
 	--sbindir=/sbin \
+	--disable-ldconfig \
 %if %mdkversion > 200800
 	--with-fuse=external
 %else
