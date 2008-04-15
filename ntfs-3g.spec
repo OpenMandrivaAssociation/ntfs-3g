@@ -1,9 +1,6 @@
 %define	name	ntfs-3g
-%define	version	1.2310
+%define	version	1.2412
 %define	release	%mkrel 1
-%define	major	24
-%define	libname	%mklibname %{name} %major
-%define	libnamedev %mklibname -d %{name}
 
 Summary:	Read-write ntfs driver
 Name:		%{name}
@@ -15,6 +12,12 @@ Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
 Patch0:		ntfs-3g-1.2216-nomtab.patch
 URL:		http://ntfs-3g.org/
+Obsoletes:      %mklibname ntfs-3g 0
+Obsoletes:      %mklibname ntfs-3g 2
+Obsoletes:      %mklibname ntfs-3g 10
+Obsoletes:      %mklibname ntfs-3g 14
+Obsoletes:      %mklibname ntfs-3g 16
+Obsoletes:      %mklibname ntfs-3g 23
 %if %mdkversion > 200800
 Buildrequires:  fuse-devel >= 2.7.2
 Requires:	fuse >= 2.7.2
@@ -30,23 +33,18 @@ XP, 2000 and Server 2003 NTFS file systems. Most POSIX file system
 operations are supported, with the exceptions of full file 
 ownership and access right support.
 
-
-%package -n	%{libname}
-Summary:	Ntfs-3g driver library
-Group:		System/Libraries
-
-%description -n	%{libname}
-Library for ntfs-3g driver.
-
-%package -n	%{libnamedev}
+%package	devel
 Summary:	Header files and static libraries for ntfs-3g
 Group:		Development/C
-Obsoletes: %mklibname -d %name 4
-Requires:	%{libname} = %{version}
+Requires:	%{name} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
+Obsoletes:	%mklibname -d %name
+Obsoletes:	%mklibname -d %name 0
+Obsoletes:      %mklibname -d %name 2
+Obsoletes:      %mklibname -d %name 4
 
-%description -n %{libnamedev}
+%description devel
 You should install this package if you wish to develop applications that
 use ntfs-3g.
 
@@ -91,8 +89,9 @@ install -m 644 %SOURCE1 %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
 %clean
 rm -rf %{buildroot}
 
-%post -n %{libname} -p /sbin/ldconfig
-%postun -n %{libname} -p /sbin/ldconfig
+%post  -p /sbin/ldconfig
+%postun  -p /sbin/ldconfig
+
 
 %files
 %defattr (-,root,root)
@@ -102,12 +101,9 @@ rm -rf %{buildroot}
 %{_mandir}/man8/*
 %attr(754,root,fuse) /sbin/mount.ntfs-3g
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
+/%{_lib}/libntfs-3g.so.*
 
-%files -n %{libname}
-%defattr(-,root,root)
-/%{_lib}/libntfs-3g.so.%{major}*
-
-%files -n %{libnamedev}
+%files devel
 %defattr(-,root,root)
 %doc ChangeLog
 /%{_lib}/libntfs-3g.so
