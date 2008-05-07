@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	1.2412
+%define	version	1.2506
 %define	release	%mkrel 1
 
 Summary:	Read-write ntfs driver
