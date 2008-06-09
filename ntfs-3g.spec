@@ -89,8 +89,12 @@ install -m 644 %SOURCE1 %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
 %clean
 rm -rf %{buildroot}
 
+%if %mdkversion < 200900
 %post  -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun  -p /sbin/ldconfig
+%endif
 
 
 %files
