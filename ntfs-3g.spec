@@ -81,7 +81,7 @@ mkdir -p %buildroot%_libdir
 mv -f %buildroot/%_lib/pkgconfig %buildroot%_libdir/pkgconfig
 
 # remove doc files, as we'll cp them later
-rm -fr %buildroot/share/doc
+rm -fr %buildroot/%_datadir/doc
 
 mkdir -p %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
 install -m 644 %SOURCE1 %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
