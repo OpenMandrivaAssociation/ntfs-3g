@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	1.2531
+%define	version	1.2712
 %define	release	%mkrel 1
 
 Summary:	Read-write ntfs driver
@@ -18,7 +18,7 @@ Obsoletes:      %mklibname ntfs-3g 10
 Obsoletes:      %mklibname ntfs-3g 14
 Obsoletes:      %mklibname ntfs-3g 16
 Obsoletes:      %mklibname ntfs-3g 23
-%if %mdkversion > 200800
+%if %mdkversion > 200900
 Buildrequires:  fuse-devel >= 2.7.2
 Requires:	fuse >= 2.7.2
 %else
@@ -60,7 +60,7 @@ use ntfs-3g.
 	--libdir=/%_lib \
 	--sbindir=/sbin \
 	--disable-ldconfig \
-%if %mdkversion > 200800
+%if %mdkversion > 200900
 	--with-fuse=external
 %else
 	--with-fuse=internal
