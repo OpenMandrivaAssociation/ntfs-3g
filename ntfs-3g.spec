@@ -1,6 +1,11 @@
 %define	name	ntfs-3g
 %define	version	1.2712
-%define	release	%mkrel 1
+%define	release	%mkrel 2
+
+%define build_external_fuse 0
+%if %mdkversion > 200900
+%define build_external_fuse 1
+%endif
 
 Summary:	Read-write ntfs driver
 Name:		%{name}
@@ -18,9 +23,10 @@ Obsoletes:      %mklibname ntfs-3g 10
 Obsoletes:      %mklibname ntfs-3g 14
 Obsoletes:      %mklibname ntfs-3g 16
 Obsoletes:      %mklibname ntfs-3g 23
-%if %mdkversion > 200900
-Buildrequires:  fuse-devel >= 2.7.2
-Requires:	fuse >= 2.7.2
+%if %build_external_fuse
+Buildrequires:  fuse-devel >= 2.8
+Requires:	fuse >= 2.8
+Requires(pre):	fuse >= 2.8
 %else
 Requires:	kmod(fuse)
 %endif
@@ -60,7 +66,7 @@ use ntfs-3g.
 	--libdir=/%_lib \
 	--sbindir=/sbin \
 	--disable-ldconfig \
-%if %mdkversion > 200900
+%if %build_external_fuse
 	--with-fuse=external
 %else
 	--with-fuse=internal
@@ -103,7 +109,11 @@ rm -rf %{buildroot}
 /bin/ntfs-3g
 /bin/ntfs-3g.probe
 %{_mandir}/man8/*
+%if %build_external_fuse
 %attr(754,root,fuse) /sbin/mount.ntfs-3g
+%else
+%attr(754,root,root) /sbin/mount.ntfs-3g
+%endif
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 /%{_lib}/libntfs-3g.so.*
 
