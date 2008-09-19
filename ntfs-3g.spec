@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
-%define	version	1.2812
-%define	release	%mkrel 2
+%define	version	1.2918
+%define	release	%mkrel 1
 
 %define build_external_fuse 0
 %if %mdkversion > 200900
