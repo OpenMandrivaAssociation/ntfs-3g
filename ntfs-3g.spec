@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	1.5130
+%define	version	2009.1.1
 %define	release	%mkrel 1
 
 %define build_external_fuse 0
