@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
 %define	version	2009.2.1
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 
 %define build_external_fuse 0
 %if %mdkversion > 200910
@@ -66,6 +66,7 @@ use ntfs-3g.
 	--libdir=/%_lib \
 	--sbindir=/sbin \
 	--disable-ldconfig \
+	--disable-mtab \
 %if %build_external_fuse
 	--with-fuse=external
 %else
