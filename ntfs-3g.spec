@@ -1,11 +1,11 @@
 %define	name	ntfs-3g
 %define	version	2009.2.1
-%define	release	%mkrel 2
+%define	release	%mkrel 3
 
 %define build_external_fuse 0
-%if %mdkversion > 200910
-%define build_external_fuse 1
-%endif
+#if %mdkversion > 200910
+#define build_external_fuse 1
+#endif
 
 Summary:	Read-write ntfs driver
 Name:		%{name}
@@ -16,6 +16,7 @@ Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
 Patch0:		ntfs-3g-1.2216-nomtab.patch
+Patch1:		mount-readlink-hang-workaround.diff
 URL:		http://ntfs-3g.org/
 Obsoletes:      %mklibname ntfs-3g 0
 Obsoletes:      %mklibname ntfs-3g 2
@@ -58,6 +59,7 @@ use ntfs-3g.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
 
 %build
 %configure2_5x \
@@ -66,7 +68,6 @@ use ntfs-3g.
 	--libdir=/%_lib \
 	--sbindir=/sbin \
 	--disable-ldconfig \
-	--disable-mtab \
 %if %build_external_fuse
 	--with-fuse=external
 %else
