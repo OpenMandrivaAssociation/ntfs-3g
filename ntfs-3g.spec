@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
-%define	version	2009.2.1
-%define	release	%mkrel 3
+%define	version	2009.3.8
+%define	release	%mkrel 1
 
 %define build_external_fuse 0
 #if %mdkversion > 200910
@@ -15,7 +15,7 @@ License:	GPLv2+
 Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
-Patch0:		ntfs-3g-1.2216-nomtab.patch
+Patch0:		ntfs-3g-2009.3.8-nomtab.patch
 Patch1:		mount-readlink-hang-workaround.diff
 URL:		http://ntfs-3g.org/
 Obsoletes:      %mklibname ntfs-3g 0
