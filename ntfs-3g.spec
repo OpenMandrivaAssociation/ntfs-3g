@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	2009.3.8
+%define	version	2009.4.4
 %define	release	%mkrel 1
 
 %define build_external_fuse 0
@@ -16,7 +16,6 @@ Group:		System/Base
 Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
 Patch0:		ntfs-3g-2009.3.8-nomtab.patch
-Patch1:		mount-readlink-hang-workaround.diff
 URL:		http://ntfs-3g.org/
 Obsoletes:      %mklibname ntfs-3g 0
 Obsoletes:      %mklibname ntfs-3g 2
@@ -58,8 +57,7 @@ use ntfs-3g.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p0
+%patch0 -p1 -b .nomtab
 
 %build
 %configure2_5x \
