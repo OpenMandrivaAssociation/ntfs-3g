@@ -13,10 +13,10 @@ Version:	%{version}
 Release:	%{release}
 License:	GPLv2+
 Group:		System/Base
-Source: 	http://ntfs-3g.org/%{name}-%{version}.tgz
+Source: 	http://tuxera.com/opensource/%{name}-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
 Patch0:		ntfs-3g-2009.3.8-nomtab.patch
-URL:		http://ntfs-3g.org/
+URL:		http://www.tuxera.com/community/ntfs-3g-download/
 Obsoletes:      %mklibname ntfs-3g 0
 Obsoletes:      %mklibname ntfs-3g 2
 Obsoletes:      %mklibname ntfs-3g 10
