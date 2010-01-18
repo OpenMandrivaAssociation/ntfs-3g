@@ -111,11 +111,7 @@ rm -rf %{buildroot}
 /bin/ntfs-3g
 /bin/ntfs-3g.*
 %{_mandir}/man8/*
-%if %build_external_fuse
-%attr(754,root,fuse) /sbin/mount.ntfs-3g
-%else
 %attr(754,root,root) /sbin/mount.ntfs-3g
-%endif
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 /%{_lib}/libntfs-3g.so.*
 
