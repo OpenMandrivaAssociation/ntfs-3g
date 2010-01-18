@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	2009.11.14
+%define	version	2010.1.16
 %define	release	%mkrel 1
 
 %define build_external_fuse 0
@@ -61,6 +61,7 @@ use ntfs-3g.
 %patch0 -p1 -b .nomtab
 
 %build
+export CFLAGS="%{optflags} -fPIC"
 %configure2_5x \
 	--disable-static \
 	--exec-prefix=/ \
