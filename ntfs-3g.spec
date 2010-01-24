@@ -37,8 +37,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 The ntfs-3g package contains NTFS filesystem driver with read and 
 write support. It provides safe and fast handling of MS Windows Vista, 
 XP, 2000 and Server 2003 NTFS file systems. Most POSIX file system 
-operations are supported, with the exceptions of full file 
-ownership and access right support.
+operations are supported.
 
 %package	devel
 Summary:	Header files and static libraries for ntfs-3g
