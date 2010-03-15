@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
 %define	version	2010.3.6
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 
 %define build_external_fuse 0
 %if %mdkversion > 201000
@@ -23,6 +23,7 @@ Obsoletes:      %mklibname ntfs-3g 10
 Obsoletes:      %mklibname ntfs-3g 14
 Obsoletes:      %mklibname ntfs-3g 16
 Obsoletes:      %mklibname ntfs-3g 23
+Conflicts:      ntfsprogs < 2.0.0-6
 BuildRequires:	attr-devel
 %if %build_external_fuse
 Buildrequires:  fuse-devel >= 2.8
@@ -83,6 +84,10 @@ sed -i -e 's|/sbin/ldconfig|true|' src/Makefile
 # make the symlink an actual copy to avoid confusion
 rm -rf %buildroot/sbin/mount.ntfs-3g
 cp -a %buildroot/bin/ntfs-3g %buildroot/sbin/mount.ntfs-3g
+ln -sf /sbin/mount.ntfs-3g %buildroot/sbin/mount.ntfs
+ln -sf /sbin/mount.ntfs-3g %buildroot/sbin/mount.ntfs-fuse
+mkdir -p %buildroot/%_bindir
+ln -sf /sbin/mount.ntfs-3g %buildroot/%_bindir/ntfsmount
 
 # .pc file should always be there
 mkdir -p %buildroot%_libdir
@@ -107,10 +112,13 @@ rm -rf %{buildroot}
 %files
 %defattr (-,root,root)
 %doc README AUTHORS CREDITS NEWS
+%_bindir/ntfsmount
 /bin/ntfs-3g
 /bin/ntfs-3g.*
 %{_mandir}/man8/*
 %attr(754,root,root) /sbin/mount.ntfs-3g
+/sbin/mount.ntfs
+/sbin/mount.ntfs-fuse
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 /%{_lib}/libntfs-3g.so.*
 
