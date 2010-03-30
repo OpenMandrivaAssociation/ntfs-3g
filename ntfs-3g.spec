@@ -1,10 +1,17 @@
 %define	name	ntfs-3g
 %define	version	2010.3.6
-%define	release	%mkrel 2
+%define	release	%mkrel 3
 
 %define build_external_fuse 0
 %if %mdkversion > 201000
 %define build_external_fuse 1
+%endif
+
+# allows all local users to mount partitions
+%define allow_unsafe_mount 0
+%if %allow_unsafe_mount
+# user mount only works if ntfs-3g is using internal fuse library
+%define build_external_fuse 0
 %endif
 
 Summary:	Read-write ntfs driver
@@ -116,7 +123,11 @@ rm -rf %{buildroot}
 /bin/ntfs-3g
 /bin/ntfs-3g.*
 %{_mandir}/man8/*
+%if %allow_unsafe_mount
+%attr(4755,root,root) /sbin/mount.ntfs-3g
+%else
 %attr(754,root,root) /sbin/mount.ntfs-3g
+%endif
 /sbin/mount.ntfs
 /sbin/mount.ntfs-fuse
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
