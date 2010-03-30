@@ -7,7 +7,11 @@
 %define build_external_fuse 1
 %endif
 
-# allows all local users to mount partitions
+# flag to allow local users to mount partitions. This is *really* not a good
+# idea, because all users who have access to the device can do whatever they
+# want with the data, and it also adds a root setuid binary to your system, so
+# use it on your own risk. Refer to
+# http://www.tuxera.com/community/ntfs-3g-faq/#useroption for details.
 %define allow_unsafe_mount 0
 %if %allow_unsafe_mount
 # user mount only works if ntfs-3g is using internal fuse library
