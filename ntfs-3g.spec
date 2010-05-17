@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
-%define	version	2010.3.6
-%define	release	%mkrel 3
+%define	version	2010.5.16
+%define	release	%mkrel 1
 
 %define build_external_fuse 0
 %if %mdkversion > 201000
@@ -124,6 +124,7 @@ rm -rf %{buildroot}
 %defattr (-,root,root)
 %doc README AUTHORS CREDITS NEWS
 %_bindir/ntfsmount
+/bin/lowntfs-3g
 /bin/ntfs-3g
 /bin/ntfs-3g.*
 %{_mandir}/man8/*
@@ -133,6 +134,7 @@ rm -rf %{buildroot}
 %attr(754,root,root) /sbin/mount.ntfs-3g
 %endif
 /sbin/mount.ntfs
+/sbin/mount.lowntfs-3g
 /sbin/mount.ntfs-fuse
 %{_datadir}/hal/fdi/policy/10osvendor/10-ntfs-3g-policy.fdi
 /%{_lib}/libntfs-3g.so.*
