@@ -43,6 +43,7 @@ Requires(pre):	fuse >= 2.8
 %else
 Requires:	kmod(fuse)
 %endif
+Conflicts:	ntfsprogs < 2.0.0-6
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
