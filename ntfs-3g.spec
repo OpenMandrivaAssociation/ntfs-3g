@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	2010.8.8
+%define	version	2010.10.2
 %define	release	%mkrel 1
 
 %define build_external_fuse 0
@@ -26,7 +26,6 @@ License:	GPLv2+
 Group:		System/Base
 Source: 	http://tuxera.com/opensource/%{name}-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
-Patch0:		ntfs-3g-2009.3.8-nomtab.patch
 URL:		http://www.tuxera.com/community/ntfs-3g-download/
 Obsoletes:      %mklibname ntfs-3g 0
 Obsoletes:      %mklibname ntfs-3g 2
@@ -67,10 +66,8 @@ Obsoletes:      %mklibname -d %name 4
 You should install this package if you wish to develop applications that
 use ntfs-3g.
 
-
 %prep
 %setup -q
-%patch0 -p1 -b .nomtab
 
 %build
 export CFLAGS="%{optflags} -fPIC"
