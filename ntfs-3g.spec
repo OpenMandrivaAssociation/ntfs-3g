@@ -1,6 +1,6 @@
 %define	name	ntfs-3g
 %define	version	2011.4.12
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 
 %define build_external_fuse 0
 %if %mdkversion > 201000
@@ -33,7 +33,7 @@ Obsoletes:      %mklibname ntfs-3g 10
 Obsoletes:      %mklibname ntfs-3g 14
 Obsoletes:      %mklibname ntfs-3g 16
 Obsoletes:      %mklibname ntfs-3g 23
-Conflicts:      ntfsprogs < 2.0.0-6
+%rename ntfsprogs
 BuildRequires:	attr-devel
 %if %build_external_fuse
 Buildrequires:  fuse-devel >= 2.8
@@ -72,7 +72,6 @@ use ntfs-3g.
 %build
 export CFLAGS="%{optflags} -fPIC"
 %configure2_5x \
-	--disable-ntfsprogs \
 	--disable-static \
 	--exec-prefix=/ \
 	--bindir=/bin \
@@ -112,13 +111,6 @@ install -m 644 %SOURCE1 %{buildroot}/%{_datadir}/hal/fdi/policy/10osvendor/
 %clean
 rm -rf %{buildroot}
 
-%if %mdkversion < 200900
-%post  -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun  -p /sbin/ldconfig
-%endif
-
 %files
 %defattr (-,root,root)
 %doc README AUTHORS CREDITS NEWS
@@ -128,6 +120,19 @@ rm -rf %{buildroot}
 /bin/ntfs-3g.probe
 /bin/ntfs-3g.secaudit
 /bin/ntfs-3g.usermap
+/bin/ntfscat
+/bin/ntfscluster
+/bin/ntfscmp
+/bin/ntfsfix
+/bin/ntfsinfo
+/bin/ntfsls
+/sbin/mkfs.ntfs
+/sbin/mkntfs
+/sbin/ntfsclone
+/sbin/ntfscp
+/sbin/ntfslabel
+/sbin/ntfsresize
+/sbin/ntfsundelete
 %{_mandir}/man8/*
 %if %allow_unsafe_mount
 %attr(4755,root,root) /sbin/mount.ntfs-3g
