@@ -1,5 +1,5 @@
 %define	name	ntfs-3g
-%define	version	2011.1.15
+%define	version	2011.4.12
 %define	release	%mkrel 1
 
 %define build_external_fuse 0
@@ -24,7 +24,7 @@ Version:	%{version}
 Release:	%{release}
 License:	GPLv2+
 Group:		System/Base
-Source: 	http://tuxera.com/opensource/%{name}-%{version}.tgz
+Source: 	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
 Source1:	10-ntfs-3g-policy.fdi
 URL:		http://www.tuxera.com/community/ntfs-3g-download/
 Obsoletes:      %mklibname ntfs-3g 0
@@ -67,11 +67,12 @@ You should install this package if you wish to develop applications that
 use ntfs-3g.
 
 %prep
-%setup -q
+%setup -qn %{name}_ntfsprogs-%{version}
 
 %build
 export CFLAGS="%{optflags} -fPIC"
 %configure2_5x \
+	--disable-ntfsprogs \
 	--disable-static \
 	--exec-prefix=/ \
 	--bindir=/bin \
@@ -124,7 +125,9 @@ rm -rf %{buildroot}
 %_bindir/ntfsmount
 /bin/lowntfs-3g
 /bin/ntfs-3g
-/bin/ntfs-3g.*
+/bin/ntfs-3g.probe
+/bin/ntfs-3g.secaudit
+/bin/ntfs-3g.usermap
 %{_mandir}/man8/*
 %if %allow_unsafe_mount
 %attr(4755,root,root) /sbin/mount.ntfs-3g
