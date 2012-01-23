@@ -134,5 +134,4 @@ rm -fr %buildroot/%_datadir/doc
 %doc ChangeLog
 /%{_lib}/libntfs-3g.so
 %{_includedir}/ntfs-3g
-/%{_lib}/libntfs-3g*a
 %{_libdir}/pkgconfig/*.pc
