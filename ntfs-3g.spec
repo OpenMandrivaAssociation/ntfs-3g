@@ -15,9 +15,9 @@
 %endif
 
 Summary:	Read-write ntfs driver
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		ntfs-3g
+Version:	2012.1.15
+Release:	2
 License:	GPLv2+
 Group:		System/Base
 Source0: 	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
@@ -45,18 +45,30 @@ write support. It provides safe and fast handling of MS Windows Vista,
 XP, 2000 and Server 2003 NTFS file systems. Most POSIX file system 
 operations are supported.
 
-%package	devel
+%define	major	83
+%define	libname	%mklibname %{name} %{major}
+%package -n	%{libname}
+Summary:	Library for reading & writing on NTFS filesystems
+Group:		System/Base
+Conflicts:	%{name} < 2012.1.15-2
+
+%description -n	%{libname}
+This is the library package for ntfs-3g.
+
+%define	devname	%mklibname -d %{name}
+%package -n	%{devname}
 Summary:	Header files and static libraries for ntfs-3g
 Group:		Development/C
-Requires:	%{name} = %{version}
+Requires:	%{libname} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Obsoletes:	%mklibname -d %name
 Obsoletes:	%mklibname -d %name 0
 Obsoletes:      %mklibname -d %name 2
 Obsoletes:      %mklibname -d %name 4
+%rename		%{name}-devel
 
-%description devel
+%description -n	%{devname}
 You should install this package if you wish to develop applications that
 use ntfs-3g.
 
@@ -100,7 +112,7 @@ rm -fr %buildroot/%_datadir/doc
 
 %files
 %doc README AUTHORS CREDITS NEWS
-%_bindir/ntfsmount
+%{_bindir}/ntfsmount
 /bin/lowntfs-3g
 /bin/ntfs-3g
 /bin/ntfs-3g.probe
@@ -128,9 +140,11 @@ rm -fr %buildroot/%_datadir/doc
 /sbin/mount.ntfs
 /sbin/mount.lowntfs-3g
 /sbin/mount.ntfs-fuse
+
+%files -n %{libname}
 /%{_lib}/libntfs-3g.so.*
 
-%files devel
+%files -n %{devname}
 %doc ChangeLog
 /%{_lib}/libntfs-3g.so
 %{_includedir}/ntfs-3g
