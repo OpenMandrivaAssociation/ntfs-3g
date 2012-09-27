@@ -150,9 +150,9 @@ rm -r %{buildroot}%{uclibc_root}%{_libdir}/pkgconfig/
 sed -i -e 's|/sbin/ldconfig|true|' system/src/Makefile
 %makeinstall_std -C system
 
-# make the symlink an actual copy to avoid confusion
-rm -rf %buildroot/sbin/mount.ntfs-3g
-cp -a %buildroot/bin/ntfs-3g %buildroot/sbin/mount.ntfs-3g
+# make the symlink a hard link to avoid confusion (why???)
+rm %buildroot/sbin/mount.ntfs-3g
+lm %buildroot/bin/ntfs-3g %buildroot/sbin/mount.ntfs-3g
 ln -sf /sbin/mount.ntfs-3g %buildroot/sbin/mount.ntfs
 ln -sf /sbin/mount.ntfs-3g %buildroot/sbin/mount.ntfs-fuse
 mkdir -p %buildroot/%_bindir
