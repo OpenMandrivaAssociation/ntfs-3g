@@ -126,7 +126,6 @@ pushd system
 	--disable-static \
 	--exec-prefix=/ \
 	--bindir=/bin \
-	--libdir=/%_lib \
 	--sbindir=/sbin \
 	--disable-ldconfig \
 %if %build_external_fuse
@@ -147,23 +146,24 @@ for l in libntfs-3g.so; do
 done
 rm -r %{buildroot}%{uclibc_root}%{_libdir}/pkgconfig/
 %endif
-sed -i -e 's|/sbin/ldconfig|true|' system/src/Makefile
 %makeinstall_std -C system
+install -d %{buildroot}/%{_lib}
+for l in libntfs-3g.so; do
+	rm %{buildroot}%{_libdir}/${l}
+	mv %{buildroot}%{_libdir}/${l}.%{major}* %{buildroot}/%{_lib}
+	ln -sr %{buildroot}/%{_lib}/${l}.%{major}.* %{buildroot}%{_libdir}/${l}
+done
 
 # make the symlink a hard link to avoid confusion (why???)
-rm %buildroot/sbin/mount.ntfs-3g
-ln %buildroot/bin/ntfs-3g %buildroot/sbin/mount.ntfs-3g
-ln -sf /sbin/mount.ntfs-3g %buildroot/sbin/mount.ntfs
-ln -sf /sbin/mount.ntfs-3g %buildroot/sbin/mount.ntfs-fuse
-mkdir -p %buildroot/%_bindir
-ln -sf /sbin/mount.ntfs-3g %buildroot/%_bindir/ntfsmount
-
-# .pc file should always be there
-mkdir -p %buildroot%_libdir
-mv -f %buildroot/%_lib/pkgconfig %buildroot%_libdir/pkgconfig
+rm %{buildroot}/sbin/mount.ntfs-3g
+ln %{buildroot}/bin/ntfs-3g %{buildroot}/sbin/mount.ntfs-3g
+ln -sf /sbin/mount.ntfs-3g %{buildroot}/sbin/mount.ntfs
+ln -sf /sbin/mount.ntfs-3g %{buildroot}/sbin/mount.ntfs-fuse
+mkdir -p %{buildroot}/%{_bindir}
+ln -sf /sbin/mount.ntfs-3g %{buildroot}/%{_bindir}/ntfsmount
 
 # remove doc files, as we'll cp them later
-rm -fr %buildroot/%_datadir/doc
+rm -r %{buildroot}%{_datadir}/doc
 
 %files
 %doc README AUTHORS CREDITS NEWS
@@ -233,7 +233,7 @@ rm -fr %buildroot/%_datadir/doc
 
 %files -n %{devname}
 %doc ChangeLog
-/%{_lib}/libntfs-3g.so
+%{_libdir}/libntfs-3g.so
 %if %{with uclibc}
 %{uclibc_root}%{_libdir}/libntfs-3g.so
 %endif
