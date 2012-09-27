@@ -1,7 +1,3 @@
-%define	name	ntfs-3g
-%define	version	2012.1.15
-%define	release 1
-
 %define build_external_fuse 1
 # flag to allow local users to mount partitions. This is *really* not a good
 # idea, because all users who have access to the device can do whatever they
@@ -13,6 +9,8 @@
 # user mount only works if ntfs-3g is using internal fuse library
 %define build_external_fuse 0
 %endif
+
+%bcond_without uclibc
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
@@ -37,9 +35,22 @@ Requires(pre):	fuse >= 2.8
 %else
 Requires:	kmod(fuse)
 %endif
+%if %{with uclibc}
+BuildRequires:	uClibc-devel >= 0.9.33.2-9
+%endif
 Conflicts:	ntfsprogs < 2.0.0-6
 
 %description
+The ntfs-3g package contains NTFS filesystem driver with read and 
+write support. It provides safe and fast handling of MS Windows Vista, 
+XP, 2000 and Server 2003 NTFS file systems. Most POSIX file system 
+operations are supported.
+
+%package -n	uclibc-%{name}
+Summary:	Read-write ntfs driver (uClibc build)
+Group:		System/Base
+
+%description -n	uclibc-%{name}
 The ntfs-3g package contains NTFS filesystem driver with read and 
 write support. It provides safe and fast handling of MS Windows Vista, 
 XP, 2000 and Server 2003 NTFS file systems. Most POSIX file system 
@@ -55,11 +66,21 @@ Conflicts:	%{name} < 2012.1.15-2
 %description -n	%{libname}
 This is the library package for ntfs-3g.
 
+%package -n	uclibc-%{libname}
+Summary:	Library for reading & writing on NTFS filesystems (uClibc build)
+Group:		System/Base
+
+%description -n	uclibc-%{libname}
+This is the library package for ntfs-3g.
+
 %define	devname	%mklibname -d %{name}
 %package -n	%{devname}
 Summary:	Header files and static libraries for ntfs-3g
 Group:		Development/C
 Requires:	%{libname} = %{version}
+%if %{with uclibc}
+Requires:	uclibc-%{libname} = %{version}
+%endif
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	lib%{name}-devel = %{version}-%{release}
 Obsoletes:	%mklibname -d %name
@@ -76,8 +97,32 @@ use ntfs-3g.
 %setup -qn %{name}_ntfsprogs-%{version}
 
 %build
-export CFLAGS="%{optflags} -fPIC"
+CONFIGURE_TOP=$PWD
+%if %{with uclibc}
+mkdir -p uclibc
+pushd uclibc
 %configure2_5x \
+	CC="%{uclibc_cc}" \
+	CFLAGS="%{uclibc_cflags} -fPIC" \
+	--disable-static \
+	--exec-prefix=/ \
+	--bindir=%{uclibc_root}/bin \
+	--libdir=%{uclibc_root}%{_libdir} \
+	--sbindir=%{uclibc_root}/sbin \
+	--disable-ldconfig \
+%if %build_external_fuse
+	--with-fuse=external
+%else
+	--with-fuse=internal
+%endif
+%make
+popd
+%endif
+
+mkdir -p system
+pushd system
+%configure2_5x \
+	CFLAGS="%{optflags} -fPIC" \
 	--disable-static \
 	--exec-prefix=/ \
 	--bindir=/bin \
@@ -92,8 +137,18 @@ export CFLAGS="%{optflags} -fPIC"
 %make
 
 %install
-sed -i -e 's|/sbin/ldconfig|true|' src/Makefile
-%makeinstall_std
+%if %{with uclibc}
+%makeinstall_std -C uclibc
+install -d %{buildroot}%{uclibc_root}/%{_lib}
+for l in libntfs-3g.so; do
+	rm %{buildroot}%{uclibc_root}%{_libdir}/${l}
+	mv %{buildroot}%{uclibc_root}%{_libdir}/${l}.%{major}* %{buildroot}%{uclibc_root}/%{_lib}
+	ln -sr %{buildroot}%{uclibc_root}/%{_lib}/${l}.%{major}.* %{buildroot}%{uclibc_root}%{_libdir}/${l}
+done
+rm -r %{buildroot}%{uclibc_root}%{_libdir}/pkgconfig/
+%endif
+sed -i -e 's|/sbin/ldconfig|true|' system/src/Makefile
+%makeinstall_std -C system
 
 # make the symlink an actual copy to avoid confusion
 rm -rf %buildroot/sbin/mount.ntfs-3g
@@ -141,11 +196,46 @@ rm -fr %buildroot/%_datadir/doc
 /sbin/mount.lowntfs-3g
 /sbin/mount.ntfs-fuse
 
+%files -n uclibc-%{name}
+#%{uclibc_root}%{_bindir}/ntfsmount
+%{uclibc_root}/bin/lowntfs-3g
+%{uclibc_root}/bin/ntfs-3g
+%{uclibc_root}/bin/ntfs-3g.probe
+%{uclibc_root}/bin/ntfs-3g.secaudit
+%{uclibc_root}/bin/ntfs-3g.usermap
+%{uclibc_root}/bin/ntfscat
+%{uclibc_root}/bin/ntfscluster
+%{uclibc_root}/bin/ntfscmp
+%{uclibc_root}/bin/ntfsfix
+%{uclibc_root}/bin/ntfsinfo
+%{uclibc_root}/bin/ntfsls
+#%{uclibc_root}/sbin/mkfs.ntfs
+%{uclibc_root}/sbin/mkntfs
+%{uclibc_root}/sbin/ntfsclone
+%{uclibc_root}/sbin/ntfscp
+%{uclibc_root}/sbin/ntfslabel
+%{uclibc_root}/sbin/ntfsresize
+%{uclibc_root}/sbin/ntfsundelete
+%if %allow_unsafe_mount
+#%attr(4755,root,root) %{uclibc_root}/sbin/mount.ntfs-3g
+%else
+#%attr(754,root,root) %{uclibc_root}/sbin/mount.ntfs-3g
+%endif
+#%{uclibc_root}/sbin/mount.ntfs
+#%{uclibc_root}/sbin/mount.lowntfs-3g
+#%{uclibc_root}/sbin/mount.ntfs-fuse
+
 %files -n %{libname}
 /%{_lib}/libntfs-3g.so.*
+
+%files -n uclibc-%{libname}
+%{uclibc_root}/%{_lib}/libntfs-3g.so.*
 
 %files -n %{devname}
 %doc ChangeLog
 /%{_lib}/libntfs-3g.so
+%if %{with uclibc}
+%{uclibc_root}%{_libdir}/libntfs-3g.so
+%endif
 %{_includedir}/ntfs-3g
 %{_libdir}/pkgconfig/*.pc
