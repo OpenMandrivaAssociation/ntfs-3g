@@ -110,11 +110,8 @@ pushd uclibc
 	--libdir=%{uclibc_root}%{_libdir} \
 	--sbindir=%{uclibc_root}/sbin \
 	--disable-ldconfig \
-%if %build_external_fuse
-	--with-fuse=external
-%else
 	--with-fuse=internal
-%endif
+
 %make
 popd
 %endif
