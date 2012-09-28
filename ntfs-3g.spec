@@ -141,6 +141,7 @@ for l in libntfs-3g.so; do
 	mv %{buildroot}%{uclibc_root}%{_libdir}/${l}.%{major}* %{buildroot}%{uclibc_root}/%{_lib}
 	ln -sr %{buildroot}%{uclibc_root}/%{_lib}/${l}.%{major}.* %{buildroot}%{uclibc_root}%{_libdir}/${l}
 done
+mv %{buildroot}/sbin/* %{buildroot}%{uclibc_root}/sbin/
 rm -r %{buildroot}%{uclibc_root}%{_libdir}/pkgconfig/
 %endif
 %makeinstall_std -C system
@@ -151,13 +152,10 @@ for l in libntfs-3g.so; do
 	ln -sr %{buildroot}/%{_lib}/${l}.%{major}.* %{buildroot}%{_libdir}/${l}
 done
 
-# make the symlink a hard link to avoid confusion (why???)
-rm %{buildroot}/sbin/mount.ntfs-3g
-ln %{buildroot}/bin/ntfs-3g %{buildroot}/sbin/mount.ntfs-3g
 ln -sf /sbin/mount.ntfs-3g %{buildroot}/sbin/mount.ntfs
 ln -sf /sbin/mount.ntfs-3g %{buildroot}/sbin/mount.ntfs-fuse
-mkdir -p %{buildroot}/%{_bindir}
-ln -sf /sbin/mount.ntfs-3g %{buildroot}/%{_bindir}/ntfsmount
+mkdir -p %{buildroot}%{_bindir}
+ln -sf /sbin/mount.ntfs-3g %{buildroot}%{_bindir}/ntfsmount
 
 # remove doc files, as we'll cp them later
 rm -r %{buildroot}%{_datadir}/doc
@@ -206,7 +204,7 @@ rm -r %{buildroot}%{_datadir}/doc
 %{uclibc_root}/bin/ntfsfix
 %{uclibc_root}/bin/ntfsinfo
 %{uclibc_root}/bin/ntfsls
-#%{uclibc_root}/sbin/mkfs.ntfs
+%{uclibc_root}/sbin/mkfs.ntfs
 %{uclibc_root}/sbin/mkntfs
 %{uclibc_root}/sbin/ntfsclone
 %{uclibc_root}/sbin/ntfscp
@@ -214,12 +212,12 @@ rm -r %{buildroot}%{_datadir}/doc
 %{uclibc_root}/sbin/ntfsresize
 %{uclibc_root}/sbin/ntfsundelete
 %if %allow_unsafe_mount
-#%attr(4755,root,root) %{uclibc_root}/sbin/mount.ntfs-3g
+%attr(4755,root,root) %{uclibc_root}/sbin/mount.ntfs-3g
 %else
-#%attr(754,root,root) %{uclibc_root}/sbin/mount.ntfs-3g
+%attr(754,root,root) %{uclibc_root}/sbin/mount.ntfs-3g
 %endif
 #%{uclibc_root}/sbin/mount.ntfs
-#%{uclibc_root}/sbin/mount.lowntfs-3g
+%{uclibc_root}/sbin/mount.lowntfs-3g
 #%{uclibc_root}/sbin/mount.ntfs-fuse
 
 %files -n %{libname}
