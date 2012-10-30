@@ -82,11 +82,10 @@ Requires:	%{libname} = %{version}
 Requires:	uclibc-%{libname} = %{version}
 %endif
 Provides:	%{name}-devel = %{version}-%{release}
-Provides:	lib%{name}-devel = %{version}-%{release}
 Obsoletes:	%mklibname -d %name
 Obsoletes:	%mklibname -d %name 0
-Obsoletes:      %mklibname -d %name 2
-Obsoletes:      %mklibname -d %name 4
+Obsoletes:	%mklibname -d %name 2
+Obsoletes:	%mklibname -d %name 4
 %rename		%{name}-devel
 
 %description -n	%{devname}
