@@ -107,7 +107,7 @@ pushd uclibc
 	--bindir=%{uclibc_root}/bin \
 	--sbindir=%{uclibc_root}/sbin \
 	--disable-ldconfig \
-	--with-fuse=internal
+	--with-fuse=external
 
 %make
 popd
