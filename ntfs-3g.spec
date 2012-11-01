@@ -15,7 +15,7 @@
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
 Version:	2012.1.15
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Base
 Source0: 	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
@@ -87,6 +87,7 @@ Obsoletes:	%mklibname -d %name 0
 Obsoletes:	%mklibname -d %name 2
 Obsoletes:	%mklibname -d %name 4
 %rename		%{name}-devel
+%rename		%{_lib}ntfs-devel
 
 %description -n	%{devname}
 You should install this package if you wish to develop applications that
