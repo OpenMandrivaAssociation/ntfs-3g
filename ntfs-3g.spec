@@ -15,7 +15,7 @@
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
 Version:	2012.1.15
-Release:	7
+Release:	8
 License:	GPLv2+
 Group:		System/Base
 Source0: 	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
@@ -97,7 +97,7 @@ use ntfs-3g.
 %setup -qn %{name}_ntfsprogs-%{version}
 
 %build
-CONFIGURE_TOP=$PWD
+CONFIGURE_TOP="$PWD"
 %if %{with uclibc}
 mkdir -p uclibc
 pushd uclibc
