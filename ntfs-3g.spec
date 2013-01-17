@@ -14,8 +14,8 @@
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2012.1.15
-Release:	8
+Version:	2013.1.13
+Release:	1
 License:	GPLv2+
 Group:		System/Base
 Source0: 	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
@@ -56,7 +56,7 @@ write support. It provides safe and fast handling of MS Windows Vista,
 XP, 2000 and Server 2003 NTFS file systems. Most POSIX file system 
 operations are supported.
 
-%define	major	83
+%define	major	84
 %define	libname	%mklibname %{name} %{major}
 %package -n	%{libname}
 Summary:	Library for reading & writing on NTFS filesystems
