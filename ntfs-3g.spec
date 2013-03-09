@@ -188,6 +188,7 @@ rm -r %{buildroot}%{_datadir}/doc
 /sbin/mount.lowntfs-3g
 /sbin/mount.ntfs-fuse
 
+%if %{with uclibc}
 %files -n uclibc-%{name}
 #%{uclibc_root}%{_bindir}/ntfsmount
 %{uclibc_root}/bin/lowntfs-3g
@@ -216,12 +217,15 @@ rm -r %{buildroot}%{_datadir}/doc
 #%{uclibc_root}/sbin/mount.ntfs
 %{uclibc_root}/sbin/mount.lowntfs-3g
 #%{uclibc_root}/sbin/mount.ntfs-fuse
+%endif
 
 %files -n %{libname}
 /%{_lib}/libntfs-3g.so.*
 
+%if %{with uclibc}
 %files -n uclibc-%{libname}
 %{uclibc_root}/%{_lib}/libntfs-3g.so.*
+%endif
 
 %files -n %{devname}
 %doc ChangeLog
