@@ -29,7 +29,7 @@ Obsoletes:      %mklibname ntfs-3g 23
 %rename ntfsprogs
 BuildRequires:	attr-devel
 %if %build_external_fuse
-Buildrequires:  fuse-devel >= 2.8
+Buildrequires:  pkgconfig(fuse)
 Requires:	fuse >= 2.8
 Requires(pre):	fuse >= 2.8
 %else
