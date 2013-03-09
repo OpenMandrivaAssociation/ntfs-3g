@@ -102,6 +102,7 @@ CONFIGURE_TOP="$PWD"
 mkdir -p uclibc
 pushd uclibc
 %uclibc_configure \
+	CC="%{uclibc_cc} -fuse-ld=bfd" \
 	--disable-static \
 	--prefix=%{_prefix} \
 	--bindir=%{uclibc_root}/bin \
@@ -116,6 +117,7 @@ popd
 mkdir -p system
 pushd system
 %configure2_5x \
+	CC="gcc -fuse-ld=bfd" \
 	CFLAGS="%{optflags} -fPIC" \
 	--disable-static \
 	--exec-prefix=/ \
