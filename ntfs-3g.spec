@@ -18,25 +18,19 @@ Version:	2013.1.13
 Release:	3
 License:	GPLv2+
 Group:		System/Base
-Source0: 	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
-URL:		http://www.tuxera.com/community/ntfs-3g-download/
-Obsoletes:      %mklibname ntfs-3g 0
-Obsoletes:      %mklibname ntfs-3g 2
-Obsoletes:      %mklibname ntfs-3g 10
-Obsoletes:      %mklibname ntfs-3g 14
-Obsoletes:      %mklibname ntfs-3g 16
-Obsoletes:      %mklibname ntfs-3g 23
+Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
+Url:		http://www.tuxera.com/community/ntfs-3g-download/
 %rename ntfsprogs
 BuildRequires:	attr-devel
 %if %build_external_fuse
-Buildrequires:  pkgconfig(fuse)
+Buildrequires:	pkgconfig(fuse)
+%if %{with uclibc}
+BuildRequires:	uClibc-devel >= 0.9.33.2-9
+%endif
 Requires:	fuse >= 2.8
 Requires(pre):	fuse >= 2.8
 %else
 Requires:	kmod(fuse)
-%endif
-%if %{with uclibc}
-BuildRequires:	uClibc-devel >= 0.9.33.2-9
 %endif
 Conflicts:	ntfsprogs < 2.0.0-6
 
@@ -82,12 +76,6 @@ Requires:	%{libname} = %{version}
 Requires:	uclibc-%{libname} = %{version}
 %endif
 Provides:	%{name}-devel = %{version}-%{release}
-Obsoletes:	%mklibname -d %name
-Obsoletes:	%mklibname -d %name 0
-Obsoletes:	%mklibname -d %name 2
-Obsoletes:	%mklibname -d %name 4
-%rename		%{name}-devel
-%rename		%{_lib}ntfs-devel
 
 %description -n	%{devname}
 You should install this package if you wish to develop applications that
@@ -222,7 +210,7 @@ rm -r %{buildroot}%{_datadir}/doc
 %endif
 
 %files -n %{libname}
-/%{_lib}/libntfs-3g.so.*
+/%{_lib}/libntfs-3g.so.%{major}*
 
 %if %{with uclibc}
 %files -n uclibc-%{libname}
