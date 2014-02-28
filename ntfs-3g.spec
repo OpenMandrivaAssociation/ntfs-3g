@@ -14,8 +14,8 @@
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2013.1.13
-Release:	7
+Version:	2014.2.15
+Release:	1
 License:	GPLv2+
 Group:		System/Base
 Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
@@ -85,6 +85,10 @@ use ntfs-3g.
 %setup -qn %{name}_ntfsprogs-%{version}
 
 %build
+for i in $(find . -name config.guess -o -name config.sub) ; do
+         [ -f /usr/share/libtool/config/$(basename $i) ] && /bin/rm -f $i && /bin/cp -fv /usr/share/libtool/config//$(basename $i) $i ;
+done ;
+
 CONFIGURE_TOP="$PWD"
 %if %{with uclibc}
 mkdir -p uclibc

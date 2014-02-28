@@ -1,4 +1,5 @@
 removed_sources:
   ntfs-3g_ntfsprogs-2012.1.15.tgz: 8d55cf49afde172fefa369a0a85289e09c4d7bbb
-sources:
   ntfs-3g_ntfsprogs-2013.1.13.tgz: 8c12b7644d90ae9fb8d0aca0d7ebd5f8fac2c818
+sources:
+  ntfs-3g_ntfsprogs-2014.2.15.tgz: c9836f340b508f5d7776156e5afb02434d3f0174
