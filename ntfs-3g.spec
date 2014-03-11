@@ -9,8 +9,9 @@
 # user mount only works if ntfs-3g is using internal fuse library
 %define build_external_fuse 0
 %endif
+%define	major	85
 
-%bcond_without uclibc
+%bcond_with uclibc
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
@@ -50,7 +51,6 @@ write support. It provides safe and fast handling of MS Windows Vista,
 XP, 2000 and Server 2003 NTFS file systems. Most POSIX file system 
 operations are supported.
 
-%define	major	84
 %define	libname	%mklibname %{name} %{major}
 %package -n	%{libname}
 Summary:	Library for reading & writing on NTFS filesystems
