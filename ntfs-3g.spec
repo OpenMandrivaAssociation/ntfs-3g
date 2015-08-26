@@ -11,12 +11,12 @@
 %endif
 %define	major	86
 
-%bcond_without uclibc
+%bcond_with uclibc
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
 Version:	2015.3.14
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		System/Base
 Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
