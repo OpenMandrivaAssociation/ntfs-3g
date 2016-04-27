@@ -9,7 +9,7 @@
 # user mount only works if ntfs-3g is using internal fuse library
 %define build_external_fuse 0
 %endif
-%define	major	87
+%define	major 87
 
 %bcond_without uclibc
 
@@ -21,7 +21,6 @@ License:	GPLv2+
 Group:		System/Base
 Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
 Url:		http://www.tuxera.com/community/ntfs-3g-download/
-%rename ntfsprogs
 BuildRequires:	attr-devel
 %if %build_external_fuse
 Buildrequires:	pkgconfig(fuse)
@@ -33,7 +32,14 @@ Requires(pre):	fuse >= 2.8
 %else
 Requires:	kmod(fuse)
 %endif
+%rename		ntfsprogs
 Conflicts:	ntfsprogs < 2.0.0-6
+Obsoletes:	%mklibname ntfs-3g 0
+Obsoletes:	%mklibname ntfs-3g 2
+Obsoletes:	%mklibname ntfs-3g 10
+Obsoletes:	%mklibname ntfs-3g 14
+Obsoletes:	%mklibname ntfs-3g 16
+Obsoletes:	%mklibname ntfs-3g 23
 
 %description
 The ntfs-3g package contains NTFS filesystem driver with read and 
@@ -80,6 +86,12 @@ Requires:	%{libname} = %{version}
 Requires:	uclibc-%{libname} = %{version}
 %endif
 Provides:	%{name}-devel = %{version}-%{release}
+Obsoletes:	%mklibname -d %name
+Obsoletes:	%mklibname -d %name 0
+Obsoletes:	%mklibname -d %name 2
+Obsoletes:	%mklibname -d %name 4
+%rename		%{name}-devel
+%rename		%{_lib}ntfs-devel
 
 %description -n	%{devname}
 You should install this package if you wish to develop applications that
