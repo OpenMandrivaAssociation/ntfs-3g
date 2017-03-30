@@ -9,11 +9,11 @@
 # user mount only works if ntfs-3g is using internal fuse library
 %define build_external_fuse 0
 %endif
-%define	major	87
+%define	major	88
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2016.2.22
+Version:	2017.3.23
 Release:	1
 License:	GPLv2+
 Group:		System/Base
@@ -102,8 +102,6 @@ rm -r %{buildroot}%{_datadir}/doc
 /bin/lowntfs-3g
 /bin/ntfs-3g
 /bin/ntfs-3g.probe
-/bin/ntfs-3g.secaudit
-/bin/ntfs-3g.usermap
 /bin/ntfscat
 /bin/ntfscluster
 /bin/ntfscmp
