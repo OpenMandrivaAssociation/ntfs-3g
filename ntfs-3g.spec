@@ -21,6 +21,7 @@ Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
 Url:		http://www.tuxera.com/community/ntfs-3g-download/
 %rename ntfsprogs
 BuildRequires:	attr-devel
+BuildRequires:	pkgconfig(libgcrypt)
 %if %build_external_fuse
 Buildrequires:	pkgconfig(fuse)
 Requires:	fuse >= 2.8
