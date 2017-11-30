@@ -23,7 +23,7 @@ Url:		http://www.tuxera.com/community/ntfs-3g-download/
 BuildRequires:	attr-devel
 BuildRequires:	pkgconfig(libgcrypt)
 %if %build_external_fuse
-Buildrequires:	pkgconfig(fuse)
+Buildrequires:	pkgconfig(fuse3)
 Requires:	fuse >= 2.8
 Requires(pre):	fuse >= 2.8
 %else
