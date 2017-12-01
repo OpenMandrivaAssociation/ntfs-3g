@@ -1,4 +1,5 @@
-%define build_external_fuse 1
+# ntfs-3g is currently incompatible with fuse 3.x
+%define build_external_fuse 0
 # flag to allow local users to mount partitions. This is *really* not a good
 # idea, because all users who have access to the device can do whatever they
 # want with the data, and it also adds a root setuid binary to your system, so
