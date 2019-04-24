@@ -15,10 +15,13 @@
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
 Version:	2017.3.23
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Base
 Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
+Patch0:		ntfs3g-2017.3.23-big-sectors.patch
+Patch1:		ntfs3g-2017.3.23-check-mftmirr.patch
+Patch2:		ntfs3g-2017.3.23-full-clusters.patch
 Url:		http://www.tuxera.com/community/ntfs-3g-download/
 %rename ntfsprogs
 BuildRequires:	attr-devel
@@ -60,6 +63,7 @@ use ntfs-3g.
 
 %prep
 %setup -qn %{name}_ntfsprogs-%{version}
+%autopatch -p1
 
 %build
 for i in $(find . -name config.guess -o -name config.sub) ; do
