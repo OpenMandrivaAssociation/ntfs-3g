@@ -80,6 +80,7 @@ done ;
 	CC="gcc -fuse-ld=bfd" \
 	CFLAGS="%{optflags} -fPIC" \
 	--disable-static \
+	--exec-prefix=/ \
 	--disable-ldconfig \
 	--enable-posix-acls \
 	--enable-xattr-mappings \
