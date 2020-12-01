@@ -17,16 +17,15 @@
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2017.3.23
-Release:	4
+Version:	2017.3.23AR.5
+Release:	1
 License:	GPLv2+
 Group:		System/Base
-Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
-Patch0:		ntfs3g-2017.3.23-big-sectors.patch
-Patch1:		ntfs3g-2017.3.23-check-mftmirr.patch
-Patch2:		ntfs3g-2017.3.23-full-clusters.patch
+#Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
+# Updated, actively maintained -AR releases come from
+# https://jp-andre.pagesperso-orange.fr/advanced-ntfs-3g.html
+Source0:	https://jp-andre.pagesperso-orange.fr/ntfs-3g_ntfsprogs-%{version}.tgz
 Url:		http://www.tuxera.com/community/ntfs-3g-download/
-%rename ntfsprogs
 BuildRequires:	pkgconfig(libattr)
 BuildRequires:	pkgconfig(libgcrypt)
 BuildRequires:	pkgconfig(gnutls)
@@ -39,7 +38,7 @@ Requires(pre):	fuse >= 2.8
 Requires:	(kmod(fuse) or kernel-release-clang)
 Suggests:	kmod(fuse)
 %endif
-Conflicts:	ntfsprogs < 2.0.0-6
+Requires:	ntfsprogs = %{EVRD}
 # (tpg) needed for Windows 10
 Recommends:	ntfs-3g-system-compression
 
@@ -66,6 +65,13 @@ Provides:	%{name}-devel = %{EVRD}
 %description -n	%{devname}
 You should install this package if you wish to develop applications that
 use ntfs-3g.
+
+%package -n ntfsprogs
+Summary:	Tools for working with the NTFS filesystem
+Group:		System/Base
+
+%description -n ntfsprogs
+Tools for working with the NTFS filesystem
 
 %prep
 %setup -qn %{name}_ntfsprogs-%{version}
@@ -98,11 +104,11 @@ done ;
 %install
 %make_install
 
-ln -sf %{_sbindir}/mount.ntfs-3g %{buildroot}/sbin/mount.ntfs
-ln -sf %{_sbindir}/mount.ntfs-3g %{buildroot}/sbin/mount.ntfs-fuse
+ln -sf mount.ntfs-3g %{buildroot}/sbin/mount.ntfs
+ln -sf mount.ntfs-3g %{buildroot}/sbin/mount.ntfs-fuse
 mkdir -p %{buildroot}%{_bindir}
-ln -sf %{_sbindir}/mount.ntfs-3g %{buildroot}%{_bindir}/ntfsmount
-ln -sf %{_bindir}/ntfsck %{buildroot}%{_sbindir}/fsck.ntfs
+ln -sf /sbin/mount.ntfs-3g %{buildroot}%{_bindir}/ntfsmount
+ln -sf %{_bindir}/ntfsck %{buildroot}/sbin/fsck.ntfs
 
 # remove doc files, as we'll cp them later
 rm -r %{buildroot}%{_datadir}/doc
@@ -111,8 +117,18 @@ rm -r %{buildroot}%{_datadir}/doc
 %doc README AUTHORS CREDITS NEWS
 %{_bindir}/ntfsmount
 %{_bindir}/lowntfs-3g
-%{_bindir}/ntfs-3g
 %{_bindir}/ntfs-3g.probe
+%if %allow_unsafe_mount
+%attr(4755,root,root) %{_bindir}/ntfs-3g
+%else
+%attr(754,root,root) %{_bindir}/ntfs-3g
+%endif
+/sbin/mount.ntfs-3g
+/sbin/mount.ntfs
+/sbin/mount.lowntfs-3g
+/sbin/mount.ntfs-fuse
+
+%files -n ntfsprogs
 %{_bindir}/ntfscat
 %{_bindir}/ntfscluster
 %{_bindir}/ntfscmp
@@ -129,8 +145,10 @@ rm -r %{buildroot}%{_datadir}/doc
 %{_bindir}/ntfsrecover
 %{_bindir}/ntfstruncate
 %{_bindir}/ntfswipe
-%{_sbindir}/fsck.ntfs
-%{_sbindir}/mkfs.ntfs
+%{_bindir}/ntfssecaudit
+%{_bindir}/ntfsusermap
+/sbin/fsck.ntfs
+/sbin/mkfs.ntfs
 %{_sbindir}/mkntfs
 %{_sbindir}/ntfsclone
 %{_sbindir}/ntfscp
@@ -138,14 +156,6 @@ rm -r %{buildroot}%{_datadir}/doc
 %{_sbindir}/ntfsresize
 %{_sbindir}/ntfsundelete
 %{_mandir}/man8/*
-%if %allow_unsafe_mount
-%attr(4755,root,root) %{_sbindir}/mount.ntfs-3g
-%else
-%attr(754,root,root) %{_sbindir}/mount.ntfs-3g
-%endif
-%{_sbindir}/mount.ntfs
-%{_sbindir}/mount.lowntfs-3g
-%{_sbindir}/mount.ntfs-fuse
 
 %files -n %{libname}
 %{_libdir}/libntfs-3g.so.%{major}*
