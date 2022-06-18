@@ -11,21 +11,18 @@
 %define build_external_fuse 0
 %endif
 
-%define major 88
-%define libname %mklibname %{name} %{major}
+%define major 89
+%define libname %mklibname %{name}
 %define devname %mklibname -d %{name}
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2017.3.23AR.5
+Version:	2022.5.17
 Release:	1
 License:	GPLv2+
 Group:		System/Base
-#Source0:	http://tuxera.com/opensource/%{name}_ntfsprogs-%{version}.tgz
-# Updated, actively maintained -AR releases come from
-# https://jp-andre.pagesperso-orange.fr/advanced-ntfs-3g.html
-Source0:	https://jp-andre.pagesperso-orange.fr/ntfs-3g_ntfsprogs-%{version}.tgz
-Url:		http://www.tuxera.com/community/ntfs-3g-download/
+Source0:	https://tuxera.com/opensource/ntfs-3g_ntfsprogs-%{version}.tgz
+Url:		https://github.com/tuxera/ntfs-3g
 BuildRequires:	pkgconfig(libattr)
 BuildRequires:	pkgconfig(libgcrypt)
 BuildRequires:	pkgconfig(gnutls)
@@ -52,6 +49,7 @@ operations are supported.
 Summary:	Library for reading & writing on NTFS filesystems
 Group:		System/Base
 Conflicts:	%{name} < 2012.1.15-2
+Obsoletes:	%{mklibname %{name} 88} < %{EVRD}
 
 %description -n %{libname}
 This is the library package for ntfs-3g.
@@ -74,8 +72,7 @@ Group:		System/Base
 Tools for working with the NTFS filesystem
 
 %prep
-%setup -qn %{name}_ntfsprogs-%{version}
-%autopatch -p1
+%autosetup -p1 -n %{name}_ntfsprogs-%{version}
 
 %build
 for i in $(find . -name config.guess -o -name config.sub) ; do
@@ -86,7 +83,6 @@ done ;
 	CC="gcc -fuse-ld=bfd" \
 	CFLAGS="%{optflags} -fPIC" \
 	--disable-static \
-	--exec-prefix=/ \
 	--disable-ldconfig \
 	--enable-posix-acls \
 	--enable-xattr-mappings \
@@ -104,29 +100,23 @@ done ;
 %install
 %make_install
 
-ln -sf mount.ntfs-3g %{buildroot}/sbin/mount.ntfs
-ln -sf mount.ntfs-3g %{buildroot}/sbin/mount.ntfs-fuse
-mkdir -p %{buildroot}%{_bindir}
-ln -sf /sbin/mount.ntfs-3g %{buildroot}%{_bindir}/ntfsmount
-ln -sf %{_bindir}/ntfsck %{buildroot}/sbin/fsck.ntfs
+mv %{buildroot}/sbin/* %{buildroot}%{_bindir}
+ln -s ntfsck %{buildroot}%{_bindir}/fsck.ntfs
 
 # remove doc files, as we'll cp them later
 rm -r %{buildroot}%{_datadir}/doc
 
 %files
 %doc README AUTHORS CREDITS NEWS
-%{_bindir}/ntfsmount
 %{_bindir}/lowntfs-3g
 %{_bindir}/ntfs-3g.probe
+%{_bindir}/mount.ntfs-3g
+%{_bindir}/mount.lowntfs-3g
 %if %allow_unsafe_mount
 %attr(4755,root,root) %{_bindir}/ntfs-3g
 %else
 %attr(754,root,root) %{_bindir}/ntfs-3g
 %endif
-/sbin/mount.ntfs-3g
-/sbin/mount.ntfs
-/sbin/mount.lowntfs-3g
-/sbin/mount.ntfs-fuse
 
 %files -n ntfsprogs
 %{_bindir}/ntfscat
@@ -147,8 +137,8 @@ rm -r %{buildroot}%{_datadir}/doc
 %{_bindir}/ntfswipe
 %{_bindir}/ntfssecaudit
 %{_bindir}/ntfsusermap
-/sbin/fsck.ntfs
-/sbin/mkfs.ntfs
+%{_bindir}/fsck.ntfs
+%{_bindir}/mkfs.ntfs
 %{_sbindir}/mkntfs
 %{_sbindir}/ntfsclone
 %{_sbindir}/ntfscp
