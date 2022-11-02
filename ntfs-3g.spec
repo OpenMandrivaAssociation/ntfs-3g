@@ -17,7 +17,7 @@
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2022.5.17
+Version:	2022.10.3
 Release:	1
 License:	GPLv2+
 Group:		System/Base
