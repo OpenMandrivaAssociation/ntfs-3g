@@ -23,6 +23,11 @@ License:	GPLv2+
 Group:		System/Base
 Source0:	https://tuxera.com/opensource/ntfs-3g_ntfsprogs-%{version}.tgz
 Url:		https://github.com/tuxera/ntfs-3g
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(libattr)
 BuildRequires:	pkgconfig(libgcrypt)
 BuildRequires:	pkgconfig(gnutls)
