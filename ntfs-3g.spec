@@ -18,10 +18,13 @@
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
 Version:	2026.9.18
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Base
 Source0:	https://tuxera.com/opensource/ntfs-3g_ntfsprogs-%{version}.tgz
+# aarch64 configure does not set HAVE_DLFCN_H, so plugin loading
+# calls dlopen without a declaration and -Werror fails the build.
+Patch0:		ntfs-3g-dlfcn.patch
 Url:		https://github.com/tuxera/ntfs-3g
 BuildRequires:	autoconf
 BuildRequires:	automake

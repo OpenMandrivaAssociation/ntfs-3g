@@ -1,0 +1,12 @@
+--- a/src/ntfs-3g_common.c
++++ b/src/ntfs-3g_common.c
+@@ -28,9 +28,7 @@
+ #include <stdlib.h>
+ #endif
+ 
+-#ifdef HAVE_DLFCN_H
+ #include <dlfcn.h>
+-#endif
+ 
+ #ifdef HAVE_STRING_H
+ #include <string.h>
