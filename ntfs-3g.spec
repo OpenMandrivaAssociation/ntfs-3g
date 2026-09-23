@@ -11,14 +11,14 @@
 %define build_external_fuse 0
 %endif
 
-%define major 89
+%define major 91
 %define libname %mklibname %{name}
 %define devname %mklibname -d %{name}
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2022.10.3
-Release:	2
+Version:	2026.9.18
+Release:	1
 License:	GPLv2+
 Group:		System/Base
 Source0:	https://tuxera.com/opensource/ntfs-3g_ntfsprogs-%{version}.tgz
@@ -77,7 +77,7 @@ Group:		System/Base
 Tools for working with the NTFS filesystem
 
 %prep
-%autosetup -p1 -n %{name}_ntfsprogs-%{version}
+%autosetup -p1 -n %{name}-%{version}
 
 %build
 for i in $(find . -name config.guess -o -name config.sub) ; do
