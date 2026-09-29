@@ -17,8 +17,8 @@
 
 Summary:	Read-write ntfs driver
 Name:		ntfs-3g
-Version:	2026.9.18
-Release:	2
+Version:	2026.9.28
+Release:	1
 License:	GPLv2+
 Group:		System/Base
 Source0:	https://tuxera.com/opensource/ntfs-3g_ntfsprogs-%{version}.tgz
